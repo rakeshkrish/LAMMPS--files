@@ -1,0 +1,64 @@
+#######################Init Section######################
+units           real
+boundary p p p
+atom_style      full
+bond_style      harmonic
+angle_style     hybrid harmonic cosine 
+#####################data file#####################
+read_data system.data
+ ####################LJ_interaction#####################################							
+pair_style lj/cut 12.25
+pair_coeff 1 1 0.1 4.5 12.25                                         
+pair_coeff 1 2 0.1 4.5 12.25
+pair_coeff 2 2 1.5 4.5 12.25
+
+bond_coeff *           10 4.5 
+angle_coeff  * cosine      2
+special_bonds lj 0.1 0.2 0.2 angle yes
+compute 1 all temp
+thermo_style    custom step ebond etotal temp
+thermo          10000
+group pol type 2 
+
+######################Relax the System from overlaps#######################
+fix             1 all nve/limit 0.1
+fix		2 all langevin 0 310.0 100.0 904297
+dump minimize all custom 1000 bb10mer_mini.lammpstrj id mol type x y z ix iy iz
+timestep        0.1
+run		1000000
+write_data bb10mer_mini.data
+unfix 1
+unfix 2
+#######################Relax Longer########################################
+fix             1 all nve/limit 0.1
+fix		2 all langevin 0 310.0 100.0 904297
+timestep        1
+run		1000000
+write_data bb10mer_mini1.data
+unfix 1
+unfix 2
+#######################Relax Longer########################################
+fix             1 all nve/limit 0.1
+fix		2 all langevin 0 310.0 100.0 904297
+timestep        5
+#dump 1 all xyz 100 bb10mer_soft.xyz
+run		1000000
+write_data bb10mer_mini2.data
+undump minimize
+unfix 1
+unfix 2
+########Loop########### variable a loop 200
+variable a loop 50 										#####edit this number for number of trajectories
+log log.$a
+fix fxlan all langevin 310.0 310.0 1500 $a
+fix fxnve all nve 
+thermo_style    custom step ebond etotal temp
+timestep 30
+restart 200000 sim.1.restart sim.2.restart
+dump dyn all dcd 30000 dimer.$a.dcd
+dump_modify dyn unwrap yes
+run   300000000										###number of steps for simulation runtime modification
+undump dyn
+clear
+next a
+jump sim.in
