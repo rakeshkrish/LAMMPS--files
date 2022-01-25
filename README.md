@@ -36,13 +36,15 @@ Requirements psf file (can be generated from VMD ) and dcd file, output of simul
 
 sim.in
 --------------------------------------------------------------------------------
-LAMMPS simulation script file. The script file requires data file as input. Under data file name section, the name of data file.
+LAMMPS simulation script file. 
 
-Pair coeff section can be modified depending on the number of types of beads.
-Three pairs of coefficients are given for two types of beads.
+--The script file requires data file as input. 
+  -Under data file name section, the name of data file can be modified depending on the system.
 
-Modify the Pair_coeff section based on the data file and types of beads in data file. 
+--Pair coeff section can be modified depending on the number of types of beads.
+  -Three pairs of coefficients are given for two types of beads.
+  -Modify the Pair_coeff section based on the data file and types of beads in data file. 
 
-loop variable should be modified for the number of trajectories.
+--loop variable should be modified for the number of trajectories.
 
-run command can be modified for simulation time.  
+--run command can be modified for simulation time.  
