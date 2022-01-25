@@ -38,12 +38,11 @@ sim.in
 --------------------------------------------------------------------------------
 LAMMPS simulation script file. 
 
---The script file requires data file as input. 
-  -Under data file name section, the name of data file can be modified depending on the system.
+--The script file requires data file as input. Under data file name section, the name of data file can be modified depending on the system.
 
 --Pair coeff section can be modified depending on the number of types of beads.
-  -Three pairs of coefficients are given for two types of beads.
-  -Modify the Pair_coeff section based on the data file and types of beads in data file. 
+  
+eg:Three pairs of coefficients are given for two types of beads. Modify the Pair_coeff section based on the data file and types of beads in data file. 
 
 --loop variable should be modified for the number of trajectories.
 
